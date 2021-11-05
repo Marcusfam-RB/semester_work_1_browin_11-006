@@ -1,0 +1,18 @@
+.auth {
+    font-size: 15pt;
+    margin-top: 10pt;
+    margin-left: 40pt;
+}
+
+.header {
+    font-size: 35pt;
+    margin-top:85px;
+    margin-left: 90pt;
+    text-align: center;
+    border-radius: 30px;
+    font-family: Bradley Hand, cursive;
+}
+
+.pos-style {
+    font-family: Bradley Hand, cursive;
+}
