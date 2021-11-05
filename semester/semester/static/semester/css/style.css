@@ -1,0 +1,98 @@
+.header {
+    font-size: 35pt;
+    margin-top:85px;
+    margin-left: 90pt;
+    text-align: center;
+    border-radius: 30px;
+    font-family: Bradley Hand, cursive;
+}
+
+.header2 {
+    font-size: 35pt;
+    margin-top:85px;
+    margin-left: 40pt;
+    border-radius: 30px;
+}
+
+.basket {
+    width: 80pt;
+    height: 80pt;
+    border-radius: 60px;
+    background-color: lightsteelblue;
+    float: right;
+    text-align: center;
+    font-family: Luminari, fantasy;
+    margin-right: 30px;
+    margin-top: 30px;
+    position: sticky;
+    top: 75pt;
+    font-size: 15pt;
+    border: 3px black;
+}
+
+.basket_add {
+    margin-top: 15pt;
+}
+
+.buy_button{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    height:50px;
+    width:250px;
+    text-align: center;
+    font-size: 15pt;
+    background: lightsteelblue;
+    border-radius: 30px;
+}
+
+.pos-style {
+    font-family: Bradley Hand, cursive;
+}
+
+.linkblock {
+    cursor:pointer
+}
+
+.profile {
+    font-size: 15pt;
+    margin-top: 10pt;
+    margin-left: 40pt;
+}
+
+.auth {
+    font-size: 15pt;
+    margin-top: 10pt;
+    margin-left: 40pt;
+}
+
+.auth_cat {
+    margin-left: 40pt;
+}
+
+.about-style {
+    font-family: Bradley Hand, cursive;
+    margin-top: 50pt;
+}
+
+.order {
+    margin-left: 200pt;
+    width: 300pt;
+}
+
+.buy {
+    float: right;
+    margin-right: 200pt;
+    margin-top: 100pt;
+    text-align: left;
+    position: sticky;
+    top: 170pt;
+    font-size: 15pt;
+}
+
+.review {
+    font-size: 20pt;
+    margin-top: 50pt;
+    margin-right: 50pt;
+    text-align: center;
+}
