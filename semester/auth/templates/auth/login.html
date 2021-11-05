@@ -1,0 +1,31 @@
+{% extends 'auth/auth_base.html' %}
+
+{% block header %}
+<h1 class="header2">Авторизация</h1>
+{% endblock %}
+
+{% block content %}
+{% for cat, message in get_flashed_messages(True) %}
+<p class="{{cat}} auth_cat">{{ message }}</p>
+{% endfor %}
+
+<form class="auth" action="{{ url_for('auth.login')}}" method="post">
+            {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}
+            {{ form.email() }}
+        </p>
+        <p>
+            {{ form.password.label }}
+            {{ form.password() }}
+        </p>
+        <p>
+            {{ form.rememberme.label }}
+            {{ form.rememberme() }}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+</form>
+
+{% endblock %}

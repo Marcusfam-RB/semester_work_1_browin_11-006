@@ -13,6 +13,61 @@ from auth.forms import LoginForm, RegisterForm
 login_manager = LoginManager(app)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return UserLogin().from_db(user_id, db)
+
+
+@auth.route('/login', methods=['POST', 'GET'])
+def login():
+    form = LoginForm()
+    if request.method == 'GET':
+        return render_template(
+            'auth/login.html',
+            menu_url=MainMenu.query.all(),
+            user=db.session.query(User).filter(User.id == current_user.get_id()).first(),
+            form=form
+        )
+    elif request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember = request.form.get('rememberme')
+        if remember == 'on':
+            remember = True
+        else:
+            remember = False
+        if not email:
+            flash('Email не указан!', category='unfilled_error')
+        else:
+            if '@' not in email or '.' not in email:
+                flash('Некорректный email!', category='validation_error')
+            else:
+                if not password:
+                    flash('Пароль не указан!', category='unfilled_error')
+                else:
+                    user = db.session.query(User).filter(User.email == email).first()
+                    if user and check_password_hash(user.password, password):
+                        userlogin = UserLogin().create(user)
+                        login_user(userlogin, remember=remember)
+                        create_basket()
+                        return redirect(url_for('user_profile.profile'))
+                    flash("Неверный логин или пароль", category="validation_error")
+
+        print(request)
+        print(get_flashed_messages(True))
+        return render_template(
+            'auth/login.html',
+            menu_url=MainMenu.query.all(),
+            user=db.session.query(User).filter(User.id == current_user.get_id()).first(),
+            form=form
+        )
+    else:
+        raise Exception(f'Method {request.method} not allowed')
+
+
+
+
+
 @auth.route("/register", methods=['POST', 'GET'])
 def register():
     form = RegisterForm()
