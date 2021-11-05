@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Email
-from wtforms.fields.html5 import EmailField
+from wtforms import StringField, SubmitField, SelectField
+from wtforms.validators import DataRequired
 from wtforms.widgets import TextArea
 
 from semester.helpers import TOWNLIST

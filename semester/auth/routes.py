@@ -50,6 +50,7 @@ def login():
                         userlogin = UserLogin().create(user)
                         login_user(userlogin, remember=remember)
                         create_basket()
+                        flash("Вы успешно авторизовались", category="success")
                         return redirect(url_for('user_profile.profile'))
                     flash("Неверный логин или пароль", category="validation_error")
 
@@ -90,10 +91,8 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         password2 = request.form.get('repeat')
-        if not email:
-            flash('Email не указан!', category='unfilled_error')
-        elif '@' not in email or '.' not in email:
-            flash('Некорректный email!', category='validation_error')
+        if not email or name:
+            flash('Email или имя не указан!', category='unfilled_error')
         elif '@' not in email or '.' not in email:
             flash('Некорректный email!', category='validation_error')
         elif db.session.query(User).filter(User.email == email).first():

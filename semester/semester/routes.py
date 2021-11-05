@@ -9,12 +9,13 @@ from semester.forms import ReviewForm, TownForm
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = TownForm()
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
     create_basket()
     if request.method == "GET":
         return render_template(
             'index.html',
             menu_url=MainMenu.query.all(),
-            user=db.session.query(User).filter(User.id == current_user.get_id()).first(),
+            user=user,
             p_amount=len(session['basket']),
             form=form
         )
@@ -27,7 +28,7 @@ def index():
         return render_template(
             'index.html',
             menu_url=MainMenu.query.all(),
-            user=db.session.query(User).filter(User.id == current_user.get_id()).first(),
+            user=user,
             p_amount=len(session['basket']),
             form=form
         )
@@ -36,6 +37,7 @@ def index():
 @app.route('/burgers', methods=['POST', 'GET'])
 def burgers():
     user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == "GET":
         return render_template(
             'burgers.html',
@@ -50,6 +52,7 @@ def burgers():
 @app.route('/pizza', methods=['POST', 'GET'])
 def pizza():
     user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == "GET":
         return render_template(
             'pizza.html',
@@ -64,6 +67,7 @@ def pizza():
 @app.route('/snacks', methods=['POST', 'GET'])
 def snacks():
     user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == "GET":
         return render_template(
             'snacks.html',
@@ -78,6 +82,7 @@ def snacks():
 @app.route('/sauces', methods=['POST', 'GET'])
 def sauces():
     user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == "GET":
         return render_template(
             'sauces.html',
@@ -92,6 +97,7 @@ def sauces():
 @app.route('/drinks', methods=['POST', 'GET'])
 def drinks():
     user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == 'GET':
         return render_template(
             'drinks.html',
@@ -105,11 +111,13 @@ def drinks():
 
 @app.route('/about', methods=['GET'])
 def about():
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == "GET":
         return render_template(
             'about.html',
             menu_url=MainMenu.query.all(),
-            user=db.session.query(User).filter(User.id == current_user.get_id()).first(),
+            user=user,
             p_amount=len(session['basket'])
         )
 
@@ -118,6 +126,7 @@ def about():
 def contacts():
     form = ReviewForm()
     user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == "GET":
         return render_template(
             'contacts.html',
@@ -154,6 +163,7 @@ def contacts():
 @login_required
 def basket():
     user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    create_basket()
     if request.method == 'GET':
         return render_template(
             'basket.html',
