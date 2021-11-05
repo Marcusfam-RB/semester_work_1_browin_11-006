@@ -126,3 +126,41 @@ def contacts():
             p_amount=len(session['basket']),
             form=form
         )
+
+
+@app.route('/basket', methods=['POST', 'GET'])
+@login_required
+def basket():
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == 'GET':
+        return render_template(
+            'basket.html',
+            menu_url=MainMenu.query.all(),
+            user=user,
+            basket=session['basket'],
+            total=session['total'],
+            p_amount=len(session['basket'])
+        )
+    elif request.method == 'POST':
+        if session['total'] == 0:
+            flash("Ваша корзина пуста", category="validation_error")
+            return render_template(
+                'basket.html',
+                menu_url=MainMenu.query.all(),
+                user=user,
+                basket=session['basket'],
+                total=session['total'],
+                p_amount=len(session['basket'])
+            )
+        address = request.form['address']
+        phone_number = request.form['number']
+        order = Orders(user.id, address, phone_number, session['total'])
+        db.session.add(order)
+        db.session.commit()
+        for p in session['basket']:
+            position = OrdersPositions(order.id, p['product_id'], p['product_quantity'])
+            db.session.add(position)
+            db.session.commit()
+        db.session.commit()
+        basket_clean()
+        return redirect(url_for('index'))
