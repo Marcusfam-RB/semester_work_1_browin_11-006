@@ -7,7 +7,9 @@ from wtforms.widgets import TextArea
 from semester.helpers import TOWNLIST
 
 
-
+class ReviewForm(FlaskForm):
+    review = StringField('Отзыв', validators=[DataRequired()], widget=TextArea())
+    submit = SubmitField('Отправить отзыв')
 
 
 class TownForm(FlaskForm):
