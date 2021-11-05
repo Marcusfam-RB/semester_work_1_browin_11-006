@@ -32,7 +32,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         remember = request.form.get('rememberme')
-        if remember == 'on':
+        if remember:
             remember = True
         else:
             remember = False
