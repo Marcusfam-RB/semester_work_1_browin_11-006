@@ -1,0 +1,32 @@
+{% extends 'user_profile/profile_base.html' %}
+
+{% block header %}
+<h1 class="header2">Редактирование пароля</h1>
+{% endblock %}
+
+{% block content %}
+{% for cat, message in get_flashed_messages(True) %}
+<p class="{{cat}} auth_cat">{{ message }}</p>
+{% endfor %}
+
+<a class="profile" href="{{ url_for('user_profile.edit') }}">Редактировать личные данные</a>
+
+<form class="profile" action="{{ url_for('user_profile.edit_pass')}}" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.old_pass.label }}
+        {{ form.old_pass() }}
+    </p>
+    <p>
+        {{ form.new_pass.label }}
+        {{ form.new_pass() }}
+    </p>
+    <p>
+        {{ form.new_pass2.label }}
+        {{ form.new_pass2() }}
+    </p>
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}

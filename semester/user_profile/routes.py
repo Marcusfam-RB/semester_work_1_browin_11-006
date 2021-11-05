@@ -76,3 +76,54 @@ def edit():
         )
     else:
         raise Exception(f'Method {request.method} not allowed')
+
+
+@user_profile.route('/edit_pass', methods=['POST', 'GET'])
+@login_required
+def edit_pass():
+    form = PasswordForm()
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == 'GET':
+        return render_template(
+            'user_profile/edit_pass.html',
+            menu_url=MainMenu.query.all(),
+            user=user,
+            form=form
+        )
+    elif request.method == 'POST':
+        new_pass = request.form.get('new_pass')
+        new_pass2 = request.form.get('new_pass2')
+        old_pass = request.form.get('old_pass')
+        if not new_pass or not new_pass2 or not old_pass:
+            flash('Пароль не указан!', category='unfilled_error')
+        else:
+            print(user.password, old_pass)
+            if check_password_hash(user.password, old_pass) is False:
+                flash('Неверный пароль!', category='validation_error')
+            else:
+                if new_pass != new_pass2:
+                    flash('Пароли не совпадают!', category='validation_error')
+                else:
+                    if password_check(new_pass)['password_ok'] is False:
+                        flash('Пароль слишком слабый', category='password_error')
+                    else:
+                        hash = generate_password_hash(new_pass)
+                        user.password = hash
+                        db.session.commit()
+                        flash("Пароль успешно изменён!", category='success')
+                        return redirect(url_for(
+                            'user_profile.profile',
+                            menu_url=MainMenu.query.all(),
+                            user=user,
+                            form=form
+                        ))
+        print(request)
+        print(get_flashed_messages(True))
+        return render_template(
+                'user_profile/edit_pass.html',
+                menu_url=MainMenu.query.all(),
+                user=user,
+                form=form
+        )
+    else:
+        raise Exception(f'Method {request.method} not allowed')
