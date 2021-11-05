@@ -18,3 +18,73 @@ def index():
             p_amount=len(session['basket']),
             form=form
         )
+
+
+@app.route('/burgers', methods=['POST', 'GET'])
+def burgers():
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == "GET":
+        return render_template(
+            'burgers.html',
+            menu_url=MainMenu.query.all(),
+            positions=db.session.query(MenuPosition).filter(MenuPosition.type == 'burgers').all(),
+            user=user,
+            url='burgers',
+            p_amount=len(session['basket'])
+        )
+
+
+@app.route('/pizza', methods=['POST', 'GET'])
+def pizza():
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == "GET":
+        return render_template(
+            'pizza.html',
+            menu_url=MainMenu.query.all(),
+            positions=db.session.query(MenuPosition).filter(MenuPosition.type == 'pizza').all(),
+            user=user,
+            url='pizza',
+            p_amount=len(session['basket'])
+        )
+
+
+@app.route('/snacks', methods=['POST', 'GET'])
+def snacks():
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == "GET":
+        return render_template(
+            'snacks.html',
+            menu_url=MainMenu.query.all(),
+            positions=db.session.query(MenuPosition).filter(MenuPosition.type == 'snack').all(),
+            user=user,
+            url='snacks',
+            p_amount=len(session['basket'])
+        )
+
+
+@app.route('/sauces', methods=['POST', 'GET'])
+def sauces():
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == "GET":
+        return render_template(
+            'sauces.html',
+            menu_url=MainMenu.query.all(),
+            positions=db.session.query(MenuPosition).filter(MenuPosition.type == 'sauce').all(),
+            user=user,
+            url='sauces',
+            p_amount=len(session['basket'])
+        )
+
+
+@app.route('/drinks', methods=['POST', 'GET'])
+def drinks():
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == 'GET':
+        return render_template(
+            'drinks.html',
+            menu_url=MainMenu.query.all(),
+            positions=db.session.query(MenuPosition).filter(MenuPosition.type == 'drink').all(),
+            user=user,
+            url='drinks',
+            p_amount=len(session['basket'])
+        )
