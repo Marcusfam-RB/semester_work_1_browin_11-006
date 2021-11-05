@@ -88,3 +88,41 @@ def drinks():
             url='drinks',
             p_amount=len(session['basket'])
         )
+
+
+@app.route('/about', methods=['GET'])
+def about():
+    if request.method == "GET":
+        return render_template(
+            'about.html',
+            menu_url=MainMenu.query.all(),
+            user=db.session.query(User).filter(User.id == current_user.get_id()).first(),
+            p_amount=len(session['basket'])
+        )
+
+
+@app.route('/contacts', methods=['GET', 'POST'])
+def contacts():
+    form = ReviewForm()
+    user = db.session.query(User).filter(User.id == current_user.get_id()).first()
+    if request.method == "GET":
+        return render_template(
+            'contacts.html',
+            menu_url=MainMenu.query.all(),
+            user=user,
+            p_amount=len(session['basket']),
+            form=form
+        )
+    elif request.method == 'POST':
+        text = request.form['review']
+        review = Review(text, user.id)
+        db.session.add(review)
+        db.session.commit()
+        flash('Спасибо за ваш отзыв!', category='success')
+        return render_template(
+            'contacts.html',
+            menu_url=MainMenu.query.all(),
+            user=user,
+            p_amount=len(session['basket']),
+            form=form
+        )

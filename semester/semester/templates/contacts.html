@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1 class="header">Контакты</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container about-style">
+  <div class="row">
+      <div class="col mx-4">
+        <p class="text-center fs-4">Адрес: Юлиуса Фучика, 14а</p>
+        <p class="fs-5 fst-italic text-center">Контакты: 8(927)127-12-34</p>
+        <p class="fs-7 text-center" >Время работы: 10:00-22:00</p>
+      </div>
+      <div class="col mx-4">
+        <p class="text-center fs-4">Адрес: Советская, 18</p>
+        <p class="fs-5 fst-italic text-center">Контакты: 8(927)227-12-34</p>
+        <p class="fs-7 text-center" >Время работы: 8:00-23:00</p>
+      </div>
+      <div class="col mx-4">
+        <p class="text-center fs-4">Адрес: Пушкина, 148</p>
+        <p class="fs-5 fst-italic text-center">Контакты: 8(927)327-12-34</p>
+        <p class="fs-7 text-center" >Время работы: 12:00-18:00</p>
+      </div>
+  </div>
+</div>
+<hr>
+
+{% for cat, message in get_flashed_messages(True) %}
+<p class="{{cat}} auth_cat">{{ message }}</p>
+{% endfor %}
+
+<form class="review" action="{{ url_for('contacts')}}" method="post">
+        {{ form.hidden_tag() }}
+    <p>
+        {{ form.review.label }} <br>
+        {{ form.review() }}
+    </p>
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}
