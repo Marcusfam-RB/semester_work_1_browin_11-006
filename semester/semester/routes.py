@@ -164,3 +164,10 @@ def basket():
         db.session.commit()
         basket_clean()
         return redirect(url_for('index'))
+
+
+@app.route('/buy', methods=['POST'])
+@login_required
+def buy():
+    if request.method == "POST":
+        return basket_update()
