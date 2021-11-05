@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1 class="header">Meat Palace</h1>
+{% endblock %}
+
+{% block content %}
+{% for cat, message in get_flashed_messages(True) %}
+<p class="{{cat}} auth_cat">{{ message }}</p>
+{% endfor %}
+
+<form class="profile" action="{{ url_for('index')}}" method="post">
+        {{ form.hidden_tag() }}
+    <p>
+        {{ form.town.label }} <br>
+        {{ form.town() }}
+    </p>
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}
