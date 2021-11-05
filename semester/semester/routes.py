@@ -18,6 +18,19 @@ def index():
             p_amount=len(session['basket']),
             form=form
         )
+    elif request.method == "POST":
+        town = request.form['town']
+        if town == 'Казань':
+            flash('У нас есть заведения в этом городе! Можете продолжить исследовать сайт!', category='message')
+        else:
+            flash('Извините, в этом городе у нас нет ресторанов, выберите другой город', category='message')
+        return render_template(
+            'index.html',
+            menu_url=MainMenu.query.all(),
+            user=db.session.query(User).filter(User.id == current_user.get_id()).first(),
+            p_amount=len(session['basket']),
+            form=form
+        )
 
 
 @app.route('/burgers', methods=['POST', 'GET'])
