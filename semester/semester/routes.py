@@ -127,6 +127,15 @@ def contacts():
             form=form
         )
     elif request.method == 'POST':
+        if not user:
+            flash("Сначала надо авторизоваться", category="error")
+            return render_template(
+                'contacts.html',
+                menu_url=MainMenu.query.all(),
+                user=user,
+                p_amount=len(session['basket']),
+                form=form
+            )
         text = request.form['review']
         review = Review(text, user.id)
         db.session.add(review)
