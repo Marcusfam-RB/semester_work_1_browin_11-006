@@ -51,14 +51,17 @@ def edit():
             flash('Не все поля заполнены!', category='unfilled_error')
         elif '@' not in email or '.' not in email:
             flash('Некорректный email!', category='validation_error')
+        elif email != user.email and  db.session.query(User).filter(User.email == user.email).first():
+            flash('Пользователь с таким email уже существует!', category='validation_error')
         elif any(map(str.isdigit, name)) is True:
             flash('Некорректное имя!', category='validation_error')
-        elif any(map(str.isdigit, number)) is False:
+        elif not number.isdigit():
             flash('Некорректный номер!', category='validation_error')
         else:
             user.name = name
             user.phone_number = number
             user.address = address
+            user.email = email
             db.session.commit()
             flash("Изменения успешно применены!", category='success')
             return redirect(url_for(
