@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1 class="header">Корзина</h1>
+{% endblock %}
+
+
+{% block content %}
+
+{% for cat, message in get_flashed_messages(True) %}
+<p class="{{cat}} auth_cat">{{ message }}</p>
+{% endfor %}
+
+<form class="buy" action="{{ url_for('basket')}}" method="post">
+    <p class="fs-3">Информация о заказе</p>
+    <p><label>Имя заказчика:</label> <input type="text" name="name" value="{{user.name}}">
+    <p><label>Телефон:</label> <input type="text" name="number" value="{{user.phone_number}}">
+    <p><label>Адрес:</label> <input type="text" name="address" value="{{user.address}}">
+    <p class="fs-7 text-center"><input type="submit" value="Оплатить {{total}} р."></p>
+</form>
+
+<div class="container order">
+    <hr>
+  {% for p in basket %}
+    <div class="row">
+      <div class="col mx-4">
+        <p class="text-center"><img src={{p['product_image']}} alt="biggus" width="150"></p>
+        <p class="fs-5 fst-italic text-center">{{p['product_name']}} X {{p['product_quantity']}}</p>
+        <p class="fs-6 text-center">{{p['product_price']}} р.</p>
+          <hr>
+      </div>
+    </div>
+  {% endfor %}
+    <p class="fs-2 text-center">Итого: {{total}} р.</p>
+</div>
+{% endblock %}
