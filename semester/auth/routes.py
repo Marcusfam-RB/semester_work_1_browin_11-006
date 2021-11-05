@@ -92,28 +92,28 @@ def register():
         password2 = request.form.get('repeat')
         if not email:
             flash('Email не указан!', category='unfilled_error')
+        elif '@' not in email or '.' not in email:
+            flash('Некорректный email!', category='validation_error')
+        elif '@' not in email or '.' not in email:
+            flash('Некорректный email!', category='validation_error')
+        elif db.session.query(User).filter(User.email == email).first():
+            flash('Пользователь с такой почтой уже зарегестрирован', category='validation_error')
+        elif not password or not password2:
+            flash('Пароль не указан!', category='unfilled_error')
+        elif password != password2:
+            flash('Пароли не совпадают!', category='validation_error')
+        elif password_check(password)['password_ok'] is False:
+            flash('Пароль слишком слабый', category='password_error')
         else:
-            if '@' not in email or '.' not in email:
-                flash('Некорректный email!', category='validation_error')
+            hash = generate_password_hash(password)
+            user = User(email=email, password=hash, name=name)
+            db.session.add(user)
+            db.session.commit()
+            if user:
+                flash("Регистрация прошла успешно", "success")
+                return redirect(url_for('auth.login'))
             else:
-                if not password or not password2:
-                    flash('Пароль не указан!', category='unfilled_error')
-                else:
-                    if password != password2:
-                        flash('Пароли не совпадают!', category='validation_error')
-                    else:
-                        if password_check(password)['password_ok'] is False:
-                            flash('Пароль слишком слабый', category='password_error')
-                        else:
-                            hash = generate_password_hash(password)
-                            user = User(email=email, password=hash, name=name)
-                            db.session.add(user)
-                            db.session.commit()
-                            if user:
-                                flash("Регистрация прошла успешно", "operation_success")
-                                return redirect(url_for('auth.login'))
-                            else:
-                                flash("пользователь с таким email уже существует", "error")
+                flash("пользователь с таким email уже существует", "error")
 
         print(request)
         print(get_flashed_messages(True))
