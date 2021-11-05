@@ -65,7 +65,14 @@ def login():
         raise Exception(f'Method {request.method} not allowed')
 
 
-
+@auth.route('/logout')
+@login_required
+def logout():
+    basket_clean()
+    create_basket()
+    logout_user()
+    flash("Вы вышли из ккаунта", category="operation_success")
+    return redirect(url_for('auth.login'))
 
 
 @auth.route("/register", methods=['POST', 'GET'])
