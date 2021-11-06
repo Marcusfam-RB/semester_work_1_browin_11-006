@@ -91,7 +91,7 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         password2 = request.form.get('repeat')
-        if not email or name:
+        if not email or not name:
             flash('Email или имя не указан!', category='unfilled_error')
         elif '@' not in email or '.' not in email:
             flash('Некорректный email!', category='validation_error')
